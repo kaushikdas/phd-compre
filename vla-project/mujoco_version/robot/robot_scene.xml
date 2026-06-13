@@ -1,0 +1,83 @@
+<mujoco model="omnivla_navigation_mj">
+    <compiler angle="degree" coordinate="local" inertiafromgeom="true"/>
+    
+    <option integrator="RK4" timestep="0.002"/>
+
+    <default>
+        <geom friction="2.0 0.5 0.5" rgba="0.8 0.6 0.4 1"/>
+        <joint damping="0.8" armature="0.01"/>
+        <velocity ctrlrange="-20 20" ctrllimited="true" kv="8"/>
+    </default>
+
+    <asset>
+        <texture name="grid" type="2d" builtin="checker" rgb1=".1 .2 .3" rgb2=".2 .3 .4" width="300" height="300" mark="edge" markrgb=".2 .3 .4"/>
+        <material name="grid" texture="grid" texrepeat="2 2" texuniform="true"/>
+    </asset>
+
+    <worldbody>
+        <light directional="true" diffuse=".8 .8 .8" specular=".2 .2 .2" pos="0 0 5" dir="0 0 -1"/>
+        <geom name="floor" type="plane" size="10 10 .1" material="grid" friction="2 0.5 0.5"/>
+
+        <!-- Target: Red Ball -->
+        <body name="red_ball" pos="3.0 2.0 0.15">
+            <geom type="sphere" size="0.15" rgba="1 0 0 1" friction="1 0.5 0.5"/>
+        </body>
+
+        <!-- Target: Green Cube -->
+        <body name="green_cube" pos="-2.0 3.0 0.12">
+            <geom type="box" size="0.12 0.12 0.12" rgba="0 1 0 1" friction="1 0.5 0.5"/>
+        </body>
+
+        <!-- Static Obstacle: Grey Stone -->
+        <body name="obstacle_stone" pos="1.8 0.8 0.2">
+            <geom type="box" size="0.3 0.3 0.2" rgba="0.5 0.5 0.5 1"/>
+        </body>
+
+        <!-- Static Obstacle: Tall Pillar -->
+        <body name="obstacle_pillar" pos="2.5 0.0 0.4">
+            <geom type="cylinder" size="0.1 0.4" rgba="0.6 0.4 0.2 1"/>
+        </body>
+
+        <!-- Static Obstacle: Dividing Wall -->
+        <body name="obstacle_wall" pos="-0.8 1.5 0.15">
+            <geom type="box" size="1.0 0.1 0.15" rgba="0.3 0.3 0.3 1"/>
+        </body>
+
+        <!-- Robot Chassis -->
+        <body name="robot" pos="0 0 0.1">
+            <joint type="free"/>
+            <geom name="chassis" type="box" size="0.2 0.15 0.05" rgba="0.2 0.2 0.8 1"/>
+            
+            <!-- Camera (Look Forward +X, Up is +Z, Right is -Y) -->
+            <camera name="robot_eye" pos="0.18 0 0.08" fovy="75" xyaxes="0 -1 0 0 0 1"/>
+            <!-- Visual Camera Eye (Black Lens) -->
+            <geom name="camera_lens" type="sphere" pos="0.18 0 0.08" size="0.025" rgba="0.1 0.1 0.1 1"/>
+            <geom name="camera_mount" type="box" pos="0.17 0 0.08" size="0.01 0.02 0.02" rgba="0.5 0.5 0.5 1"/>
+
+            <!-- Wheels -->
+            <body name="front_left" pos="0.14 0.17 -0.05">
+                <joint name="fl_joint" type="hinge" axis="0 1 0"/>
+                <geom type="cylinder" size="0.05 0.015" euler="90 0 0" rgba="0.1 0.1 0.1 1"/>
+            </body>
+            <body name="front_right" pos="0.14 -0.17 -0.05">
+                <joint name="fr_joint" type="hinge" axis="0 1 0"/>
+                <geom type="cylinder" size="0.05 0.015" euler="90 0 0" rgba="0.1 0.1 0.1 1"/>
+            </body>
+            <body name="rear_left" pos="-0.14 0.17 -0.05">
+                <joint name="rl_joint" type="hinge" axis="0 1 0"/>
+                <geom type="cylinder" size="0.05 0.015" euler="90 0 0" rgba="0.1 0.1 0.1 1"/>
+            </body>
+            <body name="rear_right" pos="-0.14 -0.17 -0.05">
+                <joint name="rr_joint" type="hinge" axis="0 1 0"/>
+                <geom type="cylinder" size="0.05 0.015" euler="90 0 0" rgba="0.1 0.1 0.1 1"/>
+            </body>
+        </body >
+    </worldbody>
+
+    <actuator>
+        <velocity name="drive_fl" joint="fl_joint"/>
+        <velocity name="drive_fr" joint="fr_joint"/>
+        <velocity name="drive_rl" joint="rl_joint"/>
+        <velocity name="drive_rr" joint="rr_joint"/>
+    </actuator>
+</mujoco>

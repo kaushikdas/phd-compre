@@ -1,0 +1,25 @@
+# OmniVLA Navigation Simulation — Dependencies
+# Install with: pip install -r requirements.txt
+
+# Core simulation
+pybullet>=3.2.6
+numpy==1.26.4
+Pillow>=10.0.0
+matplotlib>=3.8.0
+
+# OmniVLA-edge inference
+# PyTorch is installed separately with CUDA support
+# torch==2.2.0
+# torchvision==0.17.0
+# torchaudio==2.2.0
+
+# CLIP for text encoding
+ftfy
+regex
+git+https://github.com/openai/CLIP.git
+
+# OmniVLA dependencies  
+utm
+PyYAML
+timm
+efficientnet_pytorch
