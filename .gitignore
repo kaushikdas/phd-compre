@@ -216,3 +216,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+vla-project/omnivla-edge/.gitattributes
+vla-project/omnivla-edge/omnivla-edge.pth
+vla-project/omnivla-edge/README.md
